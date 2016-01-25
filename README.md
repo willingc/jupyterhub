@@ -4,7 +4,8 @@ Questions, comments? Visit our Google Group:
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
 [![Build Status](https://travis-ci.org/jupyter/jupyterhub.svg?branch=master)](https://travis-ci.org/jupyter/jupyterhub)
-[![CircleCI](https://img.shields.io/circleci/project/BrightFlair/PHP.Gt.svg)](https://circleci.com/gh/jupyter/jupyterhub)
+[![CircleCI](https://circleci.com/gh/jupyter/jupyterhub.svg?style=shield&circle-token=:circle-token](https://circleci.com/gh/jupyter/jupyterhub)
+
 [![Documentation Status](https://readthedocs.org/projects/jupyterhub/badge/?version=latest)](http://jupyterhub.readthedocs.org/en/latest/?badge=latest)
 
 JupyterHub, a multi-user server, manages and proxies multiple instances of the single-user <del>IPython</del> Jupyter notebook server.
