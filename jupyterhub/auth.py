@@ -7,6 +7,7 @@ from grp import getgrnam
 import pipes
 import pwd
 import re
+# shutil on Python 2 does not have which backported
 from shutil import which
 import sys
 from subprocess import Popen, PIPE, STDOUT
@@ -132,6 +133,7 @@ class Authenticator(LoggingConfigurable):
             self.log.warning("Disallowing invalid username %r.", username)
             return
         if self.check_whitelist(username):
+            # TODO: Python versions <3.3 do not allow return with argument in generator
             return username
         else:
             self.log.warning("User %r not in whitelist.", username)
@@ -297,6 +299,7 @@ class LocalAuthenticator(Authenticator):
         if self.group_whitelist:
             return self.check_group_whitelist(username)
         else:
+            # TODO Python 2 does not allow super without arguments
             return super().check_whitelist(username)
 
     def check_group_whitelist(self, username):
@@ -324,7 +327,7 @@ class LocalAuthenticator(Authenticator):
                 yield gen.maybe_future(self.add_system_user(user))
             else:
                 raise KeyError("User %s does not exist." % user.name)
-        
+        # TODO Python 2 does not allow super without arguments
         yield gen.maybe_future(super().add_user(user))
     
     @staticmethod
