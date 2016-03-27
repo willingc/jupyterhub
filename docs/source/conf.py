@@ -16,6 +16,9 @@ import sys
 import os
 import shlex
 
+from jupyter_sphinx_theme import *
+init_theme()
+
 # Needed for conversion from markdown to html
 import recommonmark.parser
 
@@ -378,7 +381,7 @@ intersphinx_mapping = {'https://docs.python.org/': None}
 # on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
-if not on_rtd:  # only import and set the theme if we're building docs locally
+if on_rtd:  # only import and set the theme if we're building docs locally
     from jupyter_sphinx_theme import *
     init_theme()
     #html_theme = 'jupyter_sphinx_theme'
