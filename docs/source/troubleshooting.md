@@ -142,3 +142,5 @@ where `ssl_cert` is example-chained.crt and ssl_key to your private key.
 Then restart JupyterHub.
 
 See also [JupyterHub SSL encryption](getting-started.md#ssl-encryption).
+
+Additional information about SSL can be found at (https://www.feistyduck.com/library/openssl-cookbook/online/).
