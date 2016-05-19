@@ -115,8 +115,8 @@ chain cert and root cert to your host cert:
 You would then set in your `jupyterhub_config.py` file the `ssl_key` and
 `ssl_cert` as follows:
 
-    c.JupyterHub.ssl_cert = your_host-chained.crt
-    c.JupyterHub.ssl_key = your_host.key
+    c.JupyterHub.ssl_cert = /path/to/your_host-chained.crt
+    c.JupyterHub.ssl_key = /path/to/your_host.key
 
 
 #### Example
@@ -142,3 +142,5 @@ where `ssl_cert` is example-chained.crt and ssl_key to your private key.
 Then restart JupyterHub.
 
 See also [JupyterHub SSL encryption](getting-started.md#ssl-encryption).
+
+Additional information about SSL can be found in [OpenSSL cookbook](https://www.feistyduck.com/library/openssl-cookbook/online/).
