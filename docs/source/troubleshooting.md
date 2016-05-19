@@ -143,4 +143,4 @@ Then restart JupyterHub.
 
 See also [JupyterHub SSL encryption](getting-started.md#ssl-encryption).
 
-Additional information about SSL can be found at (https://www.feistyduck.com/library/openssl-cookbook/online/).
+Additional information about SSL can be found in [OpenSSL cookbook](https://www.feistyduck.com/library/openssl-cookbook/online/).
