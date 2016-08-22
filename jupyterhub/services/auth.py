@@ -1,10 +1,12 @@
 """Authenticating services with JupyterHub
 
-Cookies are sent to the Hub for verification, replying with a JSON model describing the authenticated user.
+Hub receives cookies sent for verification. Hub replies with a JSON model
+describing the authenticated user.
 
 HubAuth can be used in any application, even outside tornado.
 
-HubAuthenticated is a mixin class for tornado handlers that should authenticate with the Hub.
+HubAuthenticated is a mixin class for tornado handlers that should
+authenticate with the Hub.
 """
 
 import socket
@@ -21,14 +23,19 @@ from traitlets import Unicode, Integer, Instance, default
 
 from ..utils import url_path_join
 
+
 class _ExpiringDict(dict):
-    """Dict-like cache for Hub API requests
+    """Cache for the Hub API requests
 
-    Values will expire after max_age seconds.
+    A dict-like cache where values will expire after ``max_age`` seconds.
 
-    A monotonic timer is used (time.monotonic).
+    Uses a monotonic timer (``time.monotonic``) to count forward in time and
+    is unaffected by system clock changes.
 
-    A max_age of 0 means cache forever.
+    Attributes
+    ----------
+    max_age : Number of seconds before cached values will expire.
+              ``max_age = 0`` means keep the cache forever.
     """
 
     max_age = 0
@@ -44,7 +51,7 @@ class _ExpiringDict(dict):
         self.values[key] = value
 
     def _check_age(self, key):
-        """Check timestamp for a key"""
+        """Check a key's timestamp"""
         if key not in self.values:
             # not registered, nothing to do
             return
@@ -55,17 +62,17 @@ class _ExpiringDict(dict):
             self.timestamps.pop(key)
 
     def __contains__(self, key):
-        """dict check for `key in dict`"""
+        """Check dict for `key in dict`"""
         self._check_age(key)
         return key in self.values
 
     def __getitem__(self, key):
-        """Check age before returning value"""
+        """Check age of cache before returning value"""
         self._check_age(key)
         return self.values[key]
 
     def get(self, key, default=None):
-        """dict-like get:"""
+        """Returns value for a given key"""
         try:
             return self[key]
         except KeyError:
@@ -75,19 +82,19 @@ class _ExpiringDict(dict):
 class HubAuth(Configurable):
     """A class for authenticating with JupyterHub
 
-    This can be used by any application.
+    This class can be used by any application.
 
     If using tornado, use via :class:`HubAuthenticated` mixin.
     If using manually, use the ``.user_for_cookie(cookie_value)`` method
     to identify the user corresponding to a given cookie value.
 
-    The following config must be set:
+    The following config MUST be set:
 
-    - api_token (token for authenticating with JupyterHub API)
-    - cookie_name (the name of the cookie I should be using)
-    - login_url (the *public* ``/hub/login`` URL of the Hub)
+    - api_token: token for authenticating with JupyterHub's REST API
+    - cookie_name: the name of the cookie I should be using
+    - login_url: the *public* ``/hub/login`` URL for the Hub
 
-    The following config MAY be set:
+    The following config may be set:
 
     - api_url: the base URL of the Hub's internal API
     - cookie_cache_max_age: the number of seconds responses
@@ -137,13 +144,17 @@ class HubAuth(Configurable):
         """Ask the Hub to identify the user for a given cookie.
 
         Args:
-            encrypted_cookie (str): the cookie value (not decrypted, the Hub will do that)
-            use_cache (bool): Specify use_cache=False to skip cached cookie values (default: True)
+            encrypted_cookie (str): the cookie value (pass the encrypted
+                                    cookie value and the Hub will decrypt)
+            use_cache (bool): determines whether cached values are used.
+                              Default: True. Specify ``use_cache=False`` to
+                              ignore cached cookie values.
 
         Returns:
-            user_model (dict): The user model, if a user is identified, None if authentication fails.
+            user_model (dict): The user model, if a user is identified.
+                               None, if authentication fails.
 
-            The 'name' field contains the user's name.
+            The 'name' field of user_model contains the user's name.
         """
         if use_cache:
             cached = self.cookie_cache.get(encrypted_cookie)
@@ -193,7 +204,8 @@ class HubAuth(Configurable):
             handler (tornado.web.RequestHandler): the current request handler
 
         Returns:
-            user_model (dict): The user model, if a user is identified, None if authentication fails.
+            user_model (dict): The user model, if a user is identified.
+                               None, if authentication fails.
 
             The 'name' field contains the user's name.
         """
@@ -218,7 +230,7 @@ class HubAuth(Configurable):
 class HubAuthenticated(object):
     """Mixin for tornado handlers that are authenticated with JupyterHub
 
-    A handler that mixes this in must have the following attributes/properties:
+    A handler that mixes this in must have these attributes/properties:
 
     - .hub_auth: A HubAuth instance
     - .hub_users: A set of usernames to allow.
@@ -235,22 +247,23 @@ class HubAuthenticated(object):
             @web.authenticated
             def get(self):
                 ...
-
     """
-    hub_users = None # set of allowed users
-    hub_auth = None # must be a HubAuth instance
+    hub_users = None  # set of allowed users
+    hub_auth = None   # must be a HubAuth instance
 
     def check_hub_user(self, user_model):
         """Check whether Hub-authenticated user should be allowed.
 
         Returns the input if the user should be allowed, None otherwise.
 
-        Override if you want to check anything other than the username's presence in hub_users list.
+        Override if you want to check additional parameters other than the
+        username's presence in hub_users list.
 
         Args:
             user_model (dict): the user model returned from :class:`HubAuth`
         Returns:
-            user_model (dict): The user model if the user should be allowed, None otherwise.
+            user_model (dict): The user model if the user should be allowed.
+                               None otherwise.
         """
         if self.hub_users is None:
             # no users specified, allow any authenticated Hub user
@@ -266,10 +279,10 @@ class HubAuthenticated(object):
         """Tornado's authentication method
 
         Returns:
-            user_model (dict): The user model, if a user is identified, None if authentication fails.
+            user_model (dict): The user model, if a user is identified.
+                               None, if authentication fails.
         """
         user_model = self.hub_auth.get_user(self)
         if not user_model:
             return
         return self.check_hub_user(user_model)
-
