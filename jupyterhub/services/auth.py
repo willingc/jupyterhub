@@ -1,11 +1,13 @@
 """Authenticating services with JupyterHub
 
-Hub receives cookies sent for verification. Hub replies with a JSON model
-describing the authenticated user.
+This module provides authentication for services used with JupyterHub. Send
+the Hub a cookie for verification. The Hub replies with a user model,
+a JSON model describing the authenticated user.
 
-HubAuth can be used in any application, even outside tornado.
+``HubAuth`` class can be used in any application, even outside the tornado
+server.
 
-HubAuthenticated is a mixin class for tornado handlers that should
+``HubAuthenticated`` is a mixin class for tornado handlers that should
 authenticate with the Hub.
 """
 
@@ -28,14 +30,12 @@ class _ExpiringDict(dict):
     """Cache for the Hub API requests
 
     A dict-like cache where values will expire after ``max_age`` seconds.
+    Uses a monotonic timer (``time.monotonic``) to count forward in time.
+    The timer is unaffected by system clock changes.
 
-    Uses a monotonic timer (``time.monotonic``) to count forward in time and
-    is unaffected by system clock changes.
-
-    Attributes
-    ----------
-    max_age : Number of seconds before cached values will expire.
-              ``max_age = 0`` means keep the cache forever.
+    Attributes:
+        max_age (int): Number of seconds before cached values will expire.
+            Default: 300. ``max_age = 0`` means keep the cache forever.
     """
 
     max_age = 0
@@ -62,7 +62,7 @@ class _ExpiringDict(dict):
             self.timestamps.pop(key)
 
     def __contains__(self, key):
-        """Check dict for `key in dict`"""
+        """Check dict for ``key in dict``"""
         self._check_age(key)
         return key in self.values
 
@@ -72,7 +72,7 @@ class _ExpiringDict(dict):
         return self.values[key]
 
     def get(self, key, default=None):
-        """Returns value for a given key"""
+        """Returns the value for a given key"""
         try:
             return self[key]
         except KeyError:
@@ -85,20 +85,18 @@ class HubAuth(Configurable):
     This class can be used by any application.
 
     If using tornado, use via :class:`HubAuthenticated` mixin.
-    If using manually, use the ``.user_for_cookie(cookie_value)`` method
+    If using manually, use :function:`user_for_cookie(cookie_value)`
     to identify the user corresponding to a given cookie value.
 
-    The following config MUST be set:
-
-    - api_token: token for authenticating with JupyterHub's REST API
-    - cookie_name: the name of the cookie I should be using
-    - login_url: the *public* ``/hub/login`` URL for the Hub
-
-    The following config may be set:
-
-    - api_url: the base URL of the Hub's internal API
-    - cookie_cache_max_age: the number of seconds responses
-      from the Hub should be cached.
+    Attributes:
+        api_token (str): token for authenticating with JupyterHub's REST API
+        cookie_name (str): the encrypted name of the cookie
+        login_url (str): the *public* ``/hub/login`` URL for the Hub, such as
+            ``https://public-hub-host``
+        api_url (Optional(str)): the base URL of the Hub's internal API, such as
+            ``http://hub-ip:hub-port``
+        cookie_cache_max_age (Optional(int)): the number of seconds that cache
+            should be kept.
     """
 
     # where is the hub
@@ -126,6 +124,7 @@ class HubAuth(Configurable):
     cookie_name = Unicode(
         help="""The name of the cookie I should be looking for"""
     ).tag(config=True)
+
     cookie_cache_max_age = Integer(300,
         help="""The maximum time (in seconds) to cache the Hub's response for cookie authentication.
 
@@ -135,7 +134,9 @@ class HubAuth(Configurable):
         Default: 300 (five minutes)
         """
     ).tag(config=True)
+
     cookie_cache = Instance(_ExpiringDict, allow_none=False)
+
     @default('cookie_cache')
     def _cookie_cache(self):
         return _ExpiringDict(self.cookie_cache_max_age)
@@ -145,15 +146,16 @@ class HubAuth(Configurable):
 
         Args:
             encrypted_cookie (str): the cookie value (pass the encrypted
-                                    cookie value and the Hub will decrypt)
+                cookie value and the Hub will decrypt)
             use_cache (bool): determines whether cached values are used.
-                              Default: True. Specify ``use_cache=False`` to
-                              ignore cached cookie values.
+                Default is True. Specify ``use_cache=False`` to  ignore cached
+                cookie values.
 
         Returns:
-            user_model (dict): The user model, if a user is identified.
-                               None, if authentication fails.
+            user_model (dict) : The user model, if a user is identified.
+                None, if authentication fails.
 
+        Note:
             The 'name' field of user_model contains the user's name.
         """
         if use_cache:
@@ -200,14 +202,17 @@ class HubAuth(Configurable):
 
         Checks cookie with the Hub to identify the current user.
 
-        Args:
-            handler (tornado.web.RequestHandler): the current request handler
+        Args
+        ----
+            handler : tornado.web.RequestHandler
+                the current request handler
 
-        Returns:
-            user_model (dict): The user model, if a user is identified.
-                               None, if authentication fails.
-
-            The 'name' field contains the user's name.
+        Returns
+        -------
+            user_model : dict
+                The user model, if a user is identified. None, if
+                authentication fails.
+                The 'name' field contains the user's name.
         """
 
         # only allow this to be called once per handler
@@ -234,7 +239,8 @@ class HubAuthenticated(object):
 
     - .hub_auth: A HubAuth instance
     - .hub_users: A set of usernames to allow.
-      If left unspecified or None, any Hub user will be allowed.
+
+    If left unspecified or None, any Hub user will be allowed.
 
     Examples::
 
