@@ -7,6 +7,7 @@ dependencies:
 - jinja2
 - pamela
 - requests
+- certifi
 - sqlalchemy>=1
 - tornado>=4.1
 - traitlets>=4.1
