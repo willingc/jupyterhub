@@ -3,7 +3,7 @@ JupyterHub
 
 With JupyterHub you can create a **multi-user Hub** which spawns, manages,
 and proxies multiple instances of the single-user
-`Jupyter notebook <https://jupyter-notebook.readthedocs.io>`_ server.
+`Jupyter notebook`_ server.
 Due to its flexibility and customization options, JupyterHub can be used to
 serve notebooks to a class of students, a corporate data science group, or a
 scientific research group.
@@ -30,7 +30,7 @@ JupyterHub's basic flow of operations includes:
 
 For convenient administration of the Hub, its users, and services, JupyterHub
 also provides a
-`REST API <http://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/jupyterhub/master/docs/rest-api.yml#/default>`_.
+`REST API`_.
 
 
 Contents
@@ -113,3 +113,5 @@ Questions? Suggestions?
 - `Jupyter website <https://jupyter.org>`_
 
 
+.. _`Jupyter notebook`: https://jupyter-notebook.readthedocs.io/en/latest/
+.. _`REST API`: http://petstore.swagger.io/?url=https://raw.githubusercontent.com/jupyter/jupyterhub/master/docs/rest-api.yml
