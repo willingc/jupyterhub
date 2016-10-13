@@ -94,65 +94,72 @@ additional configuration of the system.
 ## Basic Configuration
 
 The [getting started document](docs/source/getting-started.md) contains
-detailed information abouts configuring a JupyterHub deployment.
+detailed information about configuring a JupyterHub deployment.
 
-The JupyterHub **tutorial** provides a video and documentation that explains
-and illustrates the fundamental steps for installation and configuration.
+The JupyterHub **tutorial** provides a video and documentation that
+explains the fundamental steps for installation and configuration.
 [Repo](https://github.com/jupyterhub/jupyterhub-tutorial)
 | [Tutorial documentation](http://jupyterhub-tutorial.readthedocs.io/en/latest/)
 
-#### Generate a default configuration file
+### Generate a default configuration file
 
-Generate a default config file:
+To generate a default configuration file, `jupyterhub_config.py` in
+the current directory:
 
-    jupyterhub --generate-config
+```bash
+jupyterhub --generate-config
+```
 
-#### Customize the configuration, authentication, and process spawning
+### Customize the configuration, authentication, and process spawning
 
-Spawn the server on ``10.0.1.2:443`` with **https**:
+Settings can be configured in the `jupyterhub_config.py` file or via
+command line options when running `jupyterhub`.
 
-    jupyterhub --ip 10.0.1.2 --port 443 --ssl-key my_ssl.key --ssl-cert my_ssl.cert
+For example, the following command, by passing options, will spawn a
+server on `10.0.1.2:443` with **https/SSL**:
 
-The authentication and process spawning mechanisms can be replaced,
-which should allow plugging into a variety of authentication or process
-control environments. Some examples, meant as illustration and testing of this
-concept, are:
+```bash
+jupyterhub --ip 10.0.1.2 --port 443 --ssl-key my_ssl.key --ssl-cert my_ssl.cert
+```
+
+The authentication and spawning mechanisms for single-user notebook
+servers can be replaced, which allows plugging into a variety of
+authentication and process control environments. Some examples are:
 
 - Using GitHub OAuth instead of PAM with [OAuthenticator](https://github.com/jupyterhub/oauthenticator)
 - Spawning single-user servers with Docker, using the [DockerSpawner](https://github.com/jupyterhub/dockerspawner)
 
 ----
 
-## Alternate Installation using Docker
+## Alternative Installation using Docker
 
 A ready to go [docker image for JupyterHub](https://hub.docker.com/r/jupyterhub/jupyterhub/)
-gives a straightforward deployment of JupyterHub.
+offers a straightforward deployment of JupyterHub.
 
 *Note: This `jupyterhub/jupyterhub` docker image is only an image for running
-the Hub service itself. It does not provide the other Jupyter components, such
+the Hub itself. It does not provide the other Jupyter components, such
 as Notebook installation, which are needed by the single-user servers.
 To run the single-user servers, which may be on the same system as the Hub or
 not, Jupyter Notebook version 4 or greater must be installed.*
 
-#### Starting JupyterHub with docker
+### Starting JupyterHub with docker
 
 The JupyterHub docker image can be started with the following command:
 
-    docker run -d --name jupyterhub jupyterhub/jupyterhub jupyterhub
+```bash
+docker run -d --name jupyterhub jupyterhub/jupyterhub jupyterhub
+```
 
-This command will create a container named `jupyterhub` that you can
+This command creates a container named `jupyterhub` that you can
 **stop and resume** with `docker stop/start`.
 
 The Hub service will be listening on all interfaces at port 8000, which makes
 this a good choice for **testing JupyterHub on your desktop or laptop**.
 
-If you want to run docker on a computer that has a public IP then you should
-(as in MUST) **secure it with ssl** by adding ssl options to your docker
-configuration or using a ssl enabled proxy.
-
-[Mounting volumes](https://docs.docker.com/engine/userguide/containers/dockervolumes/)
-will allow you to **store data outside the docker image (host system) so it will be persistent**,
-even when you start a new image.
+If you want to run docker on a computer that has a public IP then you
+should (as in MUST) **secure it with ssl** by adding ssl options to your
+docker configuration or using a ssl enabled proxy, such as nginx with
+SSL termination.
 
 The command `docker exec -it jupyterhub bash` will spawn a root shell in your
 docker container. You can **use the root shell to create system users in the container**.
