@@ -24,7 +24,8 @@ from ..utils import random_port
 
 from pamela import PAMError
 
-def mock_authenticate(username, password, service='login'):
+
+def mock_authenticate(username, password):
     # just use equality for testing
     if password == username:
         return True
@@ -32,7 +33,7 @@ def mock_authenticate(username, password, service='login'):
         raise PAMError("Fake")
 
 
-def mock_open_session(username, service):
+def mock_open_session():
     pass
 
 
