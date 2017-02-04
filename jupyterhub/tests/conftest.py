@@ -22,6 +22,7 @@ import jupyterhub.services.service
 # global db session object
 _db = None
 
+
 @fixture
 def db():
     """Get a db session"""
@@ -51,8 +52,10 @@ def io_loop():
 
 @fixture(scope='module')
 def app(request):
+    """Create an app from a mocked hub"""
     app = MockHub.instance(log_level=logging.DEBUG)
     app.start([])
+
     def fin():
         MockHub.clear_instance()
         app.stop()
@@ -60,13 +63,16 @@ def app(request):
     return app
 
 
-# mock services for testing.
-# Shorter intervals, etc.
 class MockServiceSpawner(jupyterhub.services.service._ServiceSpawner):
+    """Spawns mock services for testing.
+
+    Set shorter poll intervals and other service properties.
+    """
     poll_interval = 1
 
 
 def _mockservice(request, app, url=False):
+    """Create a mock service with no url."""
     name = 'mock-service'
     spec = {
         'name': name,
@@ -76,7 +82,8 @@ def _mockservice(request, app, url=False):
     if url:
         spec['url'] = 'http://127.0.0.1:%i' % random_port(),
 
-    with mock.patch.object(jupyterhub.services.service, '_ServiceSpawner', MockServiceSpawner):
+    with mock.patch.object(jupyterhub.services.service, '_ServiceSpawner',
+            MockServiceSpawner):
         app.services = [{
             'name': name,
             'command': mockservice_cmd,
@@ -86,6 +93,7 @@ def _mockservice(request, app, url=False):
         app.init_services()
         app.io_loop.add_callback(app.proxy.add_all_services, app._service_map)
         assert name in app._service_map
+
         service = app._service_map[name]
         app.io_loop.add_callback(service.start)
         request.addfinalizer(service.stop)
@@ -97,13 +105,18 @@ def _mockservice(request, app, url=False):
             service.proc.wait(1)
     return service
 
+
 @yield_fixture
 def mockservice(request, app):
+    """Create a mock service with no url - hub managed??"""
     yield _mockservice(request, app, url=False)
+
 
 @yield_fixture
 def mockservice_url(request, app):
+    """Create a mock service with a url - external service"""
     yield _mockservice(request, app, url=True)
+
 
 @yield_fixture
 def no_patience(app):
@@ -112,4 +125,3 @@ def no_patience(app):
                          {'slow_spawn_timeout': 0,
                           'slow_stop_timeout': 0}):
         yield
-
