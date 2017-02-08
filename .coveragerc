@@ -2,7 +2,8 @@
 branch = False
 omit =
     jupyterhub/tests/*
-    jupyterhub/alembic/*
+    */alembic/*
+    /usr/*
 
 [report]
 exclude_lines =
@@ -15,3 +16,7 @@ omit =
     jupyterhub/tests/*
     jupyterhub/alembic/*
     */site-packages/*
+    */alembic/*
+    /usr/*
+
+
