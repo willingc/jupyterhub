@@ -14,6 +14,7 @@ dependencies:
 - sphinx>=1.3.6
 - sphinx_rtd_theme
 - pip:
+    - pyyaml
     - readthedocs-build
     - readthedocs.doc_builder.config
     - recommonmark==0.4.0
