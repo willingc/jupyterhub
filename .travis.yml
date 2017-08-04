@@ -32,6 +32,7 @@ install:
 
 # running tests
 script:
+  - cd /tmp
   - pytest -v --maxfail=2 --cov=jupyterhub jupyterhub/tests
 after_success:
   - codecov
