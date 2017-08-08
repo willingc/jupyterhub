@@ -3,21 +3,21 @@ Users
 =====
 
 Module: :mod:`jupyterhub.user`
-==============================
+------------------------------
 
 .. automodule:: jupyterhub.user
 
 .. currentmodule:: jupyterhub.user
 
 :class:`UserDict`
------------------
+~~~~~~~~~~~~~~~~~
 
 .. autoclass:: UserDict
     :members:
 
 
 :class:`User`
--------------
+~~~~~~~~~~~~~
 
 .. autoclass:: User
     :members: escaped_name
