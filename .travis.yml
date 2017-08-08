@@ -29,6 +29,9 @@ install:
   - pip install -U pip
   - pip install --pre -r dev-requirements.txt
   - pip install -vv .
+  - npm install
+  - python3 setup.py js
+  - python3 setup.py css
 
 # running tests
 script:
