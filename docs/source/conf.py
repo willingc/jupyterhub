@@ -62,39 +62,15 @@ source_parsers = {
 }
 
 source_suffix = ['.rst', '.md']
-#source_encoding = 'utf-8-sig'
 
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.
 html_theme = 'jupyter_alabaster_theme'
 
-#html_theme_options = {}
-#html_theme_path = []
-#html_title = None
-#html_short_title = None
-#html_logo = None
-#html_favicon = None
-
 # Paths that contain custom static files (such as style sheets)
 html_static_path = ['_static']
 
-#html_extra_path = []
-#html_last_updated_fmt = '%b %d, %Y'
-#html_use_smartypants = True
-#html_sidebars = {}
-#html_additional_pages = {}
-#html_domain_indices = True
-#html_use_index = True
-#html_split_index = False
-#html_show_sourcelink = True
-#html_show_sphinx = True
-#html_show_copyright = True
-#html_use_opensearch = ''
-#html_file_suffix = None
-#html_search_language = 'en'
-#html_search_options = {'type': 'default'}
-#html_search_scorer = 'scorer.js'
 htmlhelp_basename = 'JupyterHubdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -114,14 +90,6 @@ latex_documents = [
    u'Project Jupyter team', 'manual'),
 ]
 
-#latex_logo = None
-#latex_use_parts = False
-#latex_show_pagerefs = False
-#latex_show_urls = False
-#latex_appendices = []
-#latex_domain_indices = True
-
-
 # -- manual page output -------------------------------------------------
 
 # One entry per manual page. List of tuples
@@ -130,9 +98,6 @@ man_pages = [
     (master_doc, 'jupyterhub', u'JupyterHub Documentation',
      [author], 1)
 ]
-
-#man_show_urls = False
-
 
 # -- Texinfo output -----------------------------------------------------
 
@@ -144,12 +109,6 @@ texinfo_documents = [
    author, 'JupyterHub', 'One line description of project.',
    'Miscellaneous'),
 ]
-
-#texinfo_appendices = []
-#texinfo_domain_indices = True
-#texinfo_show_urls = 'footnote'
-#texinfo_no_detailmenu = False
-
 
 # -- Epub output --------------------------------------------------------
 
@@ -173,19 +132,4 @@ if not on_rtd:
     import jupyter_alabaster_theme
     html_theme = 'jupyter_alabaster_theme'
     html_theme_path = [jupyter_alabaster_theme.get_path()]
-else:
-    # readthedocs.org uses their theme by default, so no need to specify it
-    # build rest-api, since RTD doesn't run make
-    # from subprocess import check_call as sh
-    # sh(['make', 'rest-api'], cwd=docs)
 
-# -- Spell checking -------------------------------------------------------
-
-try:
-    import sphinxcontrib.spelling
-except ImportError:
-    pass
-else:
-    extensions.append("sphinxcontrib.spelling")
-
-spelling_word_list_filename='spelling_wordlist.txt'
