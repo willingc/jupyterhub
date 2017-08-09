@@ -132,4 +132,7 @@ if not on_rtd:
     import jupyter_alabaster_theme
     html_theme = 'jupyter_alabaster_theme'
     html_theme_path = [jupyter_alabaster_theme.get_path()]
+else:
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
 
