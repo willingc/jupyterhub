@@ -10,7 +10,7 @@ dependencies:
 - sqlalchemy>=1
 - tornado>=4.1
 - traitlets>=4.1
-- sphinx>=1.4, !=1.6.3
+- sphinx>=1.4, <=1.6
 - pip:
   - jupyter_alabaster_theme
   - python-oauth2
