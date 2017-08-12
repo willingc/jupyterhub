@@ -26,11 +26,10 @@ before_install:
     fi
 install:
   - pip install -U pip
-  - pip install --pre -r dev-requirements.txt .
-  - pip freeze
+  - pip install -r dev-requirements.txt
   - npm install
-  - python setup.py js
-  - python setup.py css
+  - pip install --pre .
+  - pip freeze
 
 # running tests
 script:
