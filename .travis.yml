@@ -29,6 +29,8 @@ install:
   - pip install --pre -r dev-requirements.txt .
   - pip freeze
   - npm install
+  - python setup.py js
+  - python setup.py css
 
 # running tests
 script:
