@@ -177,12 +177,13 @@ If you would like to contribute to the project, please read our
 [contributor documentation](http://jupyter.readthedocs.io/en/latest/contributor/content-contributor.html)
 and the [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-For a **development install**, clone the [repository](https://github.com/jupyterhub/jupyterhub)
+For a local **development install**, clone the [repository](https://github.com/jupyterhub/jupyterhub)
 and then install from source:
 
 ```bash
 git clone https://github.com/jupyterhub/jupyterhub
 cd jupyterhub
+npm install -g configurable-http-proxy
 pip3 install -r dev-requirements.txt -e .
 ```
 
