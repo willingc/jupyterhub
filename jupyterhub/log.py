@@ -40,7 +40,7 @@ def coroutine_traceback(typ, value, tb):
 class CoroutineLogFormatter(LogFormatter):
     """Log formatter that scrubs coroutine frames"""
     def formatException(self, exc_info):
-        return ''.join(coroutine_traceback(*exc_info))
+        return u''.join(coroutine_traceback(*exc_info))
 
 
 def _scrub_uri(uri):
@@ -111,7 +111,7 @@ def log_request(handler):
         user=username,
         location='',
     )
-    msg = "{status} {method} {uri}{location} ({user}@{ip}) {request_time:.2f}ms"
+    msg = u'{status} {method} {uri}{location} ({user}@{ip}) {request_time:.2f}ms'
     if status >= 500 and status != 502:
         log_method(json.dumps(headers, indent=2))
     elif status in {301, 302}:
@@ -120,6 +120,6 @@ def log_request(handler):
         # to get headers from tornado
         location = handler._headers.get('Location')
         if location:
-            ns['location'] = ' → {}'.format(location)
+            ns['location'] = u" → {}".format(location).encode("utf-8")
     log_method(msg.format(**ns))
     prometheus_log_method(handler)
