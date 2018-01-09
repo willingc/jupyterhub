@@ -112,11 +112,10 @@ def log_request(handler):
     msg = "{status} {method} {uri}{location} ({user}@{ip}) {request_time:.2f}ms"
     if status >= 500 and status != 502:
         log_method(json.dumps(headers, indent=2))
-    elif status in {301, 302}:
+    #elif status in {301, 302}:
         # log redirect targets
         # FIXME: _headers is private, but there doesn't appear to be a public way
         # to get headers from tornado
-        location = handler._headers.get('Location')
-        if location:
-            ns['location'] = ' redirects to {}'.format(location)
+        ##if location:
+        #    ns['location'] = ' redirects to {}'.format(location)
     log_method(msg.format(**ns))
