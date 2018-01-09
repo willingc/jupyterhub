@@ -118,5 +118,6 @@ def log_request(handler):
         # to get headers from tornado
         location = handler._headers.get('Location')
         if location:
-            ns['location'] = ' → {}'.format(location)
+            msg_tmp = ' → {}'.format(location)
+            ns['location'] = msg_tmp.encode('utf8')
     log_method(msg.format(**ns))
