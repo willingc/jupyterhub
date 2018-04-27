@@ -3,7 +3,7 @@ mock
 codecov
 cryptography
 pytest-cov
-pytest-tornado
+pytest-tornado>=0.5
 pytest>=3.3
 notebook
 requests-mock
