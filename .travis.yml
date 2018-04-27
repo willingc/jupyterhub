@@ -34,10 +34,11 @@ before_install:
 install:
   - pip install --upgrade pip
   - pip install -r dev-requirements.txt .
-  - pip freeze
   - |
     if [[ ! -z "$TORNADO" ]]; then
       pip install tornado==$TORNADO
+    fi
+  - pip freeze
 # running tests
 script:
   - |
