@@ -4,8 +4,9 @@ import sys
 import os
 import shlex
 
-# For conversion from markdown to html
-import recommonmark.parser
+import recommonmark
+from recommonmark.parser import CommonMarkParser
+from recommonmark.transform import AutoStructify
 
 # Set paths
 sys.path.insert(0, os.path.abspath('.'))
@@ -13,7 +14,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- General configuration ------------------------------------------------
 
 # Minimal Sphinx version
-needs_sphinx = '1.4'
+needs_sphinx = '1.7'
 
 # Sphinx extension modules
 extensions = [
@@ -58,7 +59,7 @@ default_role = 'literal'
 
 # -- Source -------------------------------------------------------------
 
-source_parsers = {'.md': 'recommonmark.parser.CommonMarkParser'}
+source_parsers = {'.md': 'CommonMarkParser'}
 
 source_suffix = ['.rst', '.md']
 # source_encoding = 'utf-8-sig'
@@ -200,3 +201,11 @@ else:
     extensions.append("sphinxcontrib.spelling")
 
 spelling_word_list_filename = 'spelling_wordlist.txt'
+
+# app setup hook
+def setup(app):
+    app.add_config_value('recommonmark_config', {
+            'url_resolver': lambda url: github_doc_root + url,
+            'auto_toc_tree_section': 'Contents',
+            }, True)
+    app.add_transform(AutoStructify)
