@@ -5,7 +5,6 @@ import os
 import shlex
 
 import recommonmark
-from recommonmark.parser import CommonMarkParser
 from recommonmark.transform import AutoStructify
 
 # Set paths
@@ -59,7 +58,7 @@ default_role = 'literal'
 
 # -- Source -------------------------------------------------------------
 
-source_parsers = {'.md': 'parser.CommonMarkParser'}
+source_parsers = {'.md': 'recommomark.parser.CommonMarkParser'}
 
 source_suffix = ['.rst', '.md']
 # source_encoding = 'utf-8-sig'
