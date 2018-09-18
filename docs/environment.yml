@@ -16,7 +16,7 @@ dependencies:
 - sphinx>=1.7
 - pip:
   - oauthlib>=2.0
-  - recommonmark==0.4.0
+  - recommonmark
   - async_generator
   - prometheus_client
   - attrs>=17.4.0
