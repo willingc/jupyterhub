@@ -58,7 +58,7 @@ default_role = 'literal'
 
 # -- Source -------------------------------------------------------------
 
-source_parsers = {'.md': 'recommomark.parser.CommonMarkParser'}
+source_parsers = {'.md': 'recommonmark.parser.CommonMarkParser'}
 
 source_suffix = ['.rst', '.md']
 # source_encoding = 'utf-8-sig'
