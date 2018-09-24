@@ -186,9 +186,9 @@ if not on_rtd:
 else:
     # readthedocs.org uses their theme by default, so no need to specify it
     # build rest-api, since RTD doesn't run make
-    from subprocess import check_call as sh
+    #from subprocess import check_call as sh
 
-    sh(['make', 'rest-api'], cwd=docs)
+    #sh(['make', 'rest-api'], cwd=docs)
 
 # -- Spell checking -------------------------------------------------------
 
